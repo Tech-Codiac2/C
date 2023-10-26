@@ -1,0 +1,41 @@
+
+
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+
+public class LogFile {
+    public static void main(String[] args) {
+        try {
+            // Command to retrieve process information and save it to a file
+            String cmd = "WMIC /OUTPUT:C:\\LIST.TXT PROCESS WHERE \"Name='adminservices.exe' OR Name='applicationFramehost.exe' OR Name='audiodg.exe' OR Name='bdagent.exe' OR Name='bdntwrk.exe'\" get name,processid,creationdate/format:table";
+
+            // Create a batch file to execute the command
+            FileWriter fos = new FileWriter("C:\\mycmd.bat");
+            fos.write(cmd);
+            fos.close();
+
+            // Execute the batch file using cmd.exe
+            Runtime rt = Runtime.getRuntime();
+            Process process = rt.exec("cmd.exe /c start C:\\mycmd.bat");
+
+            // Wait for the process to complete
+            int exitCode = process.waitFor();
+
+            // Check if the command was executed successfully
+            if (exitCode == 0) {
+                System.out.println("Command executed successfully.");
+
+                // Write your name to the log file
+                PrintWriter writer = new PrintWriter(new FileWriter("C:\\LIST.TXT", true)); // Open file in append mode
+                writer.println("Logged by: Ashutosh A Mishra");
+                writer.close();
+            } else {
+                System.out.println("Command execution failed with exit code: " + exitCode);
+            }
+
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}

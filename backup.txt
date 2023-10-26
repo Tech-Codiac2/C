@@ -1,0 +1,20 @@
+@echo off
+
+rem Path to MySQL server bin folder
+cd /d "C:\Program Files\MySQL\MySQL Server 8.0\bin"
+
+rem Credentials to connect to MySQL server
+set mysql_user=root 
+set mysql_password=Bunty@123
+
+rem Backup file name generation
+set "backup_path=C:\Users\Ashutosh Mishra\OneDrive\Desktop\"
+set "backup_name=my-all-databases"
+
+rem Backup creation
+mysqldump --user=%mysql_user% --password=%mysql_password% --all-databases --routines --events --result-file="%backup_path%\%backup_name%.sql"
+if %ERRORLEVEL% neq 0 (
+    (echo Backup failed: error during dump creation) >> "%backup_path%\mysql_backup_log.txt"
+) else (
+    (echo Backup successful) >> "%backup_path%\mysql_backup_log.txt"
+)

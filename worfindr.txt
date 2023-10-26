@@ -1,0 +1,32 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
+public class WordFinder {
+    public static void main(String[] args) {
+        String filePath = "C:\\Users\\Ashutosh Mishra\\OneDrive\\Desktop\\practicecis\\txt.txt"; // Update with the path to your file
+        String targetWord = "Ashutosh"; // Replace with the word you want to find
+        boolean wordFound = false;
+
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(filePath));
+            String line;
+            int lineNumber = 0;
+
+            while ((line = reader.readLine()) != null) {
+                lineNumber++;
+                if (line.contains(targetWord)) {
+                    System.out.println("Word '" + targetWord + "' found on line " + lineNumber + ": " + line);
+                    wordFound = true;
+                }
+            }
+            reader.close();
+        } catch (IOException e) {
+            System.err.println("An error occurred: " + e.getMessage());
+        }
+
+        if (!wordFound) {
+            System.out.println("Word '" + targetWord + "' was not found in the file.");
+        }
+    }
+}
